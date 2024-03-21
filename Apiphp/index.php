@@ -23,6 +23,17 @@
     <br>
     <br>
 
+    <div class="container3">
+        <div>
+            Historia
+        </div>
+        <div>
+            Mision
+        </div>
+        <div>
+            Vision
+        </div>
+    </div>
     <div class="container">
         <div id="resultado" class="row"></div>
     </div>

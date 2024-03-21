@@ -35,7 +35,14 @@ html, body{
 }
 
 .sesion > button{
-    width: 15px;
+    width: 150px;
+    height: 25px;
+    background-color: transparent;
+    
+}
+.sesion > button:hover{
+    background-color: #011D42;
+    
 }
 
 .pie{
@@ -70,6 +77,11 @@ html, body{
     margin: 5px;
     height: 37px;
    
+}
+.container3{
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr; 
+    grid-template-rows: 1fr; 
 }
 
 @media screen and (min-width:992px){
