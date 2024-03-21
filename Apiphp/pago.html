@@ -1,0 +1,97 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+       
+<script src="https://www.paypal.com/sdk/js?client-id=AVq3C3CFTGb_WCVcNV8mijUDc4ZG2IgrjCoYtS2enP4VP4oeh1DKge858cFJ7240xYoZgXcRDzv57lpU&components=buttons,funding-eligibility,marks"></script>
+    
+<script src="https://www.paypal.com/sdk/js?client-id=AVq3C3CFTGb_WCVcNV8mijUDc4ZG2IgrjCoYtS2enP4VP4oeh1DKge858cFJ7240xYoZgXcRDzv57lpU&currency=USD"></script>
+      
+<script src="https://www.paypal.com/sdk/js?client-id=AVq3C3CFTGb_WCVcNV8mijUDc4ZG2IgrjCoYtS2enP4VP4oeh1DKge858cFJ7240xYoZgXcRDzv57lpU&components=buttons,marks"></script>
+    
+
+      <title>Pagar</title>
+      
+    </head>
+    <body>
+    
+    
+    
+   
+  
+    
+    <center>
+        
+            <div id="paypal-button-container"></div>
+          
+         
+    
+    </center>
+     
+    
+    
+    
+    <script>
+     
+    
+      paypal.Buttons({
+        style: {
+        layout: 'vertical',
+        color:  'blue',
+        shape:  'rect',
+        label:  'pay',
+        shape :  'pill',
+      
+      },
+      
+        createOrder: function(data, actions) {
+          
+       
+          return actions.order.create({
+    
+            purchase_units: [{
+              amount: {
+                
+                value: '100'
+              }
+            }]
+          });
+        },
+    
+        onApprove :function(data, actions){
+         actions.order.capture().then(function(detalles){
+    
+            console.log(detalles);
+        
+            
+    
+           
+            alert("PAGO EXITOSO")
+    
+           window.location.href="completado.php"
+    
+           
+          
+    
+         });
+    
+    
+        },
+        onCancel : function(data){
+          alert("Se ha cancelado el pago")
+          console.log(data);
+        } 
+      }).render('#paypal-button-container');
+    </script>
+    
+
+    
+   
+
+
+    
+    </body>
+    </html>

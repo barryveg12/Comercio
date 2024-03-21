@@ -9,51 +9,97 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="css/styleindex.css">
 </head>
-    <body>
-        <p>gola</p>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark p-3 bg-danger" id="headerNav">
+        <div class="container-fluid">
+            <a class="navbar-brand d-block d-lg-none" href="#">
+                
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        
+            <div class=" collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav mx-auto ">
+                    <li class="nav-item">
+                        <a class="nav-link mx-2 active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2" href="#">Products</a>
+                    </li>
+                    <li class="nav-item d-none d-lg-block">
+                        <a class="nav-link mx-2" href="#">
+                            LOGO
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2" href="carrito.html">Carrito</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Company
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="#">Blog</a></li>
+                            <li><a class="dropdown-item" href="#">About Us</a></li>
+                            <li><a class="dropdown-item" href="#">Contact us</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <br>
+    <br>
 
     <div class="container">
         <div id="resultado" class="row"></div>
     </div>
 
+    <script>
+        async function fetchProductos() {
+            try {
+                const response = await fetch('http://localhost/comercio/comercio/Apiphp/api/service?find=obtener_productos');
+                const data = await response.json();
 
-  
-
-
-    </body>
-</html>
-
-
-
-<script>
-    async function fetchProductos() {
-        try {
-            const response = await fetch('http://localhost/comercio/comercio/Apiphp/api/service?find=obtener_productos');
-            const data = await response.json();
-
-            
-            if (data.error) {
-                document.getElementById('resultado').innerText = data.error;
-            } else {
-                let html = '';
-                data.forEach(producto => {
-                    html += `
-                    <div class="col-md-4">
-                        <div class="card product-card">
-                            <div class="card-body">
-                                <h5 class="card-title">${producto.product_name}</h5>
-                                <p class="card-text">${producto.description}</p>
+                if (data.error) {
+                    document.getElementById('resultado').innerText = data.error;
+                } else {
+                    let html = '';
+                    data.forEach(producto => {
+                        html += `
+                        <div class="col-md-4">
+                            <div class="card product-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">${producto.name}</h5>
+                                    <p class="card-text">${producto.description}</p>
+                                    <button class="btn btn-primary" onclick="agregarAlCarrito('${producto.name}', '${producto.description}')">Ver detalles</button>
+                                    <button class="btn btn-success" onclick="verProducto('${producto.name}', '${producto.description}', '${producto.price}')">Ver producto</button>
+                                </div>
                             </div>
-                        </div>
-                    </div>`;
-                });
-                document.getElementById('resultado').innerHTML = html;
+                        </div>`;
+                    });
+                    document.getElementById('resultado').innerHTML = html;
+                }
+            } catch (error) {
+                console.error('Hubo un error al obtener los datos:', error);
+                document.getElementById('resultado').innerText = 'Hubo un error al obtener los datos.';
             }
-        } catch (error) {
-            console.error('Hubo un error al obtener los datos:', error);
-            document.getElementById('resultado').innerText = 'Hubo un error al obtener los datos.';
         }
-    }
-    
-    window.onload = fetchProductos;
-</script>
+        
+        function agregarAlCarrito(nombre, descripcion) {
+            let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            carrito.push({ nombre, descripcion });
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+        }
+
+        function verProducto(nombre, descripcion, precio) {
+            // Redirigir al usuario a la página del producto con todos los detalles necesarios
+            window.location.href = `producto.html?nombre=${encodeURIComponent(nombre)}&descripcion=${encodeURIComponent(descripcion)}&precio=${encodeURIComponent(precio)}`;
+        }
+
+        window.onload = fetchProductos;
+    </script>
+
+</body>
+</html>

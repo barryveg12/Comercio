@@ -2,3 +2,8 @@
     margin-bottom: 20px;
     background-color: rgb(214, 146, 146);
 }
+@media screen and (min-width:992px){
+    .nav-item {
+    line-height:80px;
+    }
+  }

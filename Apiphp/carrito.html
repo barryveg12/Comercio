@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Carrito de Compras</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="carrito-body">
+               
+            </tbody>
+        </table>
+        <button id="btn-pagar" class="btn btn-success" onclick="pagar()" disabled>Pagar</button>
+    </div>
+
+    <script>
+        
+        function cargarProductosCarrito() {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+            let html = '';
+            carrito.forEach((producto, index) => {
+                html += `
+                    <tr>
+                        <td>${producto.nombre}</td>
+                        <td>${producto.descripcion}</td>
+                        <td>${producto.precio}</td>
+                        <td>${producto.cantidad}</td>
+                        <td><button class="btn btn-danger" onclick="eliminarProducto(${index})">Eliminar</button></td>
+                    </tr>`;
+            });
+
+            const carritoBody = document.getElementById('carrito-body');
+            carritoBody.innerHTML = html;
+
+            
+            const btnPagar = document.getElementById('btn-pagar');
+            btnPagar.disabled = carrito.length === 0;
+        }
+
+        function eliminarProducto(index) {
+            let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            carrito.splice(index, 1);
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+            cargarProductosCarrito(); 
+        }
+
+        
+        function pagar() {
+            
+            window.location.href = 'pago.html';
+        }
+
+      
+        window.onload = cargarProductosCarrito;
+    </script>
+</body>
+</html>

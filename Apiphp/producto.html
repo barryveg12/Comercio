@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Producto</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Detalles del Producto</h2>
+        <div id="producto-details">
+           
+        </div>
+        <div class="form-group">
+            <label for="cantidad">Cantidad:</label>
+            <input type="number" id="cantidad" name="cantidad" class="form-control" value="1" min="1">
+        </div>
+        <button class="btn btn-primary" onclick="agregarAlCarrito()">Agregar al carrito</button>
+    </div>
+
+    <script>
+   
+        function obtenerParametro(nombre) {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            return urlParams.get(nombre);
+        }
+
+        function cargarDetallesProducto() {
+           
+            const nombre = obtenerParametro('nombre');
+            const descripcion = obtenerParametro('descripcion');
+            const precio = obtenerParametro('precio');
+
+      
+            if (nombre && descripcion && precio) {
+                
+                const html = `
+                    <h3>${nombre}</h3>
+                    <p><strong>Descripción:</strong> ${descripcion}</p>
+                    <p><strong>Precio:</strong> ${precio}</p>
+                    <!-- Otros detalles del producto aquí... -->
+                `;
+          
+                document.getElementById('producto-details').innerHTML = html;
+            } else {
+                document.getElementById('producto-details').innerHTML = '<p>No se proporcionaron detalles completos del producto.</p>';
+            }
+        }
+
+   
+        function agregarAlCarrito() {
+            const nombre = obtenerParametro('nombre');
+            const descripcion = obtenerParametro('descripcion');
+            const precio = obtenerParametro('precio');
+            const cantidad = document.getElementById('cantidad').value || 1;
+
+          
+            let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            carrito.push({ nombre, descripcion, precio, cantidad });
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+
+            alert('Producto agregado al carrito');
+        }
+
+    
+        window.onload = cargarDetallesProducto;
+    </script>
+</body>
+</html>
