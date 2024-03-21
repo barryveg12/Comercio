@@ -39,4 +39,4 @@ function verProducto(nombre, descripcion, precio) {
     window.location.href = `producto.html?nombre=${encodeURIComponent(nombre)}&descripcion=${encodeURIComponent(descripcion)}&precio=${encodeURIComponent(precio)}`;
 }
 
-window.onload = fetchProductos;
+window.onload = fetchProductos();
